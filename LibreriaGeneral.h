@@ -14,6 +14,7 @@ typedef struct fecha
 
 typedef struct libro
 {
+    int id_libro;
     char titulo[50];
     char autor[50];
     char editorial[50];
