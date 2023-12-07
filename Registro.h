@@ -117,4 +117,131 @@ void ImprimirUsuario(usuarios User){
     return;
 }
 
+typedef struct NodoLibro
+{
+    libros Dato;
+    struct NodoLibro *sgt;
+} NodoLibro;
+
+void RegistrarLibro(libros, NodoLibro **);
+void RegistroManualLibro(NodoLibro **, int *);
+libros IngresoManualLibro(int *ID);
+NodoLibro *Crear_NodoLibro(libros dato);
+void Insertar_NodoLibro(NodoLibro **Inicio, libros dato);
+void Imprimir_Lista_Libros(NodoLibro **Inicio);
+void ImprimirLibro(libros Libro);
+
+void RegistrarLibro(libros LibroIngresar, NodoLibro **Inicio)
+{
+    Insertar_NodoLibro(Inicio, LibroIngresar);
+    return;
+}
+
+void RegistroManualLibro(NodoLibro **Inicio, int *ID)
+{
+    libros NuevoLibro = IngresoManualLibro(ID);
+    RegistrarLibro(NuevoLibro, Inicio);
+    return;
+}
+
+libros IngresoManualLibro(int *ID)
+{
+    libros NuevoLibro;
+    NuevoLibro.id_libro = *ID;
+
+    fflush(stdin);
+    printf("Ingrese el titulo del libro: ");
+    scanf("%50[^\n]", NuevoLibro.titulo);
+    fflush(stdin);
+    printf("Ingrese el autor del libro: ");
+    scanf("%50[^\n]", NuevoLibro.autor);
+    fflush(stdin);
+    printf("Ingrese la editorial del libro: ");
+    scanf("%50[^\n]", NuevoLibro.editorial);
+    fflush(stdin);
+    printf("Ingrese el numero de ejemplares del libro: ");
+    scanf("%d", &NuevoLibro.numero_ejemplares);
+    fflush(stdin);
+    printf("Ingrese el año de publicacion del libro: ");
+    scanf("%d", &NuevoLibro.anio_publicacion.anio);
+    fflush(stdin);
+
+    *ID += 1;
+    return NuevoLibro;
+}
+
+NodoLibro *Crear_NodoLibro(libros dato)
+{
+    NodoLibro *NewNode = (NodoLibro *)malloc(sizeof(NodoLibro));
+    if (!NewNode)
+        return NULL;
+    NewNode->Dato = dato;
+    NewNode->sgt = NULL;
+    return NewNode;
+}
+
+void Insertar_NodoLibro(NodoLibro **Inicio, libros dato)
+{
+    NodoLibro *NodoInsert = Crear_NodoLibro(dato);
+    NodoInsert->sgt = *Inicio;
+    *Inicio = NodoInsert;
+    return;
+}
+
+NodoLibro **Buscar_NodoLibro(NodoLibro **Inicio, libros dato)
+{
+    while (*Inicio)
+    {
+        if ((*Inicio)->Dato.id_libro == dato.id_libro)
+            return Inicio;
+        Inicio = &((*Inicio))->sgt;
+    }
+    return NULL;
+}
+
+void Eliminar_NodoLibro(NodoLibro **Inicio, libros datoEl)
+{
+    NodoLibro **temp;
+    if (!(temp = Buscar_NodoLibro(Inicio, datoEl)))
+        return;
+    NodoLibro *temp2 = *temp;
+    *temp = temp2->sgt;
+    free(temp2);
+    return;
+}
+
+void Imprimir_Lista_Libros(NodoLibro **Inicio)
+{
+    if ((*Inicio)->sgt == *Inicio)
+    {
+        ImprimirLibro((*Inicio)->Dato);
+        return;
+    }
+    NodoLibro **aux = Inicio;
+    while (((*aux)->sgt != *Inicio))
+    {
+        ImprimirLibro((*aux)->Dato);
+        aux = &(*aux)->sgt;
+    }
+    return;
+}
+
+void ImprimirLibro(libros Libro)
+{
+    printf("ID\t\t %d", Libro.id_libro);
+    puts("");
+    printf("Titulo\t\t %s", Libro.titulo);
+    puts("");
+    printf("Autor\t\t %s", Libro.autor);
+    puts("");
+    printf("Editorial\t %s", Libro.editorial);
+    puts("");
+    printf("Ejemplares\t %d", Libro.numero_ejemplares);
+    puts("");
+    printf("Anio Publicacion\t %d", Libro.anio_publicacion.anio);
+    puts("");
+    puts("");
+    return;
+}
+
 #endif
