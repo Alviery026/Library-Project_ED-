@@ -12,7 +12,7 @@ typedef struct fecha
     int anio;
 }fecha;
 
-typedef struct libro
+typedef struct libros
 {
     int id_libro;
     char titulo[50];
@@ -20,7 +20,7 @@ typedef struct libro
     char editorial[50];
     int numero_ejemplares;
     fecha anio_publicacion;
-} libro;
+} libros;
 
 typedef struct usuarios
 {
@@ -38,11 +38,5 @@ typedef struct prestamos_devoluciones
     time_t fecha_prestamo;        
     time_t fecha_devolucion;      
 } prestamos_devoluciones;
-
-void testfunc() //Borrar
-{
-    printf("Hola, funciono");
-    return;
-}
 
 #endif
