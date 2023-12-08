@@ -23,8 +23,15 @@ int main(void)
 
     menuPrincipal(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros);
 
+
+
+
+
     return 0;
 }
+
+
+
 
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros) {
     int opcion;
@@ -96,6 +103,7 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *I
 void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros) {
     int opcion;
     do {
+        limpiarPantalla();
         printf("\n****MENU DE LIBROS****\n");
         printf("1. Registrar nuevo libro\n");
         printf("2. Ver lista de libros registrados\n");
