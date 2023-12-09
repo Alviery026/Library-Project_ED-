@@ -9,14 +9,12 @@
 
 //-----------------------------PROTOTIPOS DE FUNCIONES-----------------------------------------
 
-
 int obtenerIDUsuario();
 int obtenerIDLibro();
 void realizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
 void realizarTransaccion(NodoTransaccion **InicioTransacciones, NodoUsuario **usuario, NodoLibro **libro, time_t fechaActual, time_t fechaVencimiento);
 void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
 void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
-
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato);
 
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato){
@@ -132,7 +130,7 @@ void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, 
     if (fechaActual > (*transaccion)->Dato.fecha_devolucion)
     {
         printf("El libro esta devuelto con retraso. Se aplicaran multas.\n");
-        //Aqui multas funcion o algo
+        //Multas hipoteticas
     }
 
     (*usuario)->Dato.libros_prestados--; // Decrementar el contador de libros prestados del usuario
