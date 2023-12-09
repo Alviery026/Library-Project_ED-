@@ -1,35 +1,37 @@
 #include "DatosPredeterminados.h"
 #include "LibreriaGeneral.h"
 #include "Registro.h"
+#include "Transacciones.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 // Declaración de  de menús del programa y otras funciones de uso vital para el programa:
-void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
+void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
 void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
-void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,/*NodoTransaccion **InicioTransacciones,*/ int *IDUsuarios, int *IDLibros);
-void limpiarPantalla();
-void pausar();
+void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
+void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios);
 
 int main(void) {
   NodoUsuario *InicioUsuarios = NULL; // Inicialización lista usuarios
   NodoLibro *InicioLibros = NULL;     // Inicialización lista libros
+  NodoTransaccion *InicioTransacciones = NULL; // Inicialización lista Transaccion
   int IDUsuarios = 1;                 // Inicialización ID para usuarios
   int IDLibros = 1;                   // Inicialización ID para libros
 
-  // Llamar a la función para cargar datos predeterminados
+
+  // Llamada de la función para cargar datos predeterminados
   CargarDatosPredeterminados(&InicioUsuarios, &InicioLibros, &IDUsuarios,&IDLibros);
 
-  menuPrincipal(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros);
+  menuPrincipal(&InicioUsuarios, &InicioLibros, &InicioTransacciones, &IDUsuarios, &IDLibros);
 
 
 
   return 0;
 }
 
-void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros) {
+void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   
   int opcion;
   do {
@@ -52,7 +54,7 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *I
       menuLibros(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
       break;
     case 3:
-      menuTransacciones(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
+      menuTransacciones(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
       break;
     case 4:
       // Agrega la lógica para multas y recordatorios
@@ -89,7 +91,6 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *ID
       break;
     case 3:
       // Salir al menú principal
-      //menuPrincipal(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
       break;
     default:
       printf("Opción no válida. Intente de nuevo.\n");
@@ -104,8 +105,8 @@ void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUs
     printf("\n****MENU DE LIBROS****\n");
     printf("1. Registrar nuevo libro\n");
     printf("2. Ver lista de libros registrados\n");
-    printf("3. Volver al menú principal\n");
-    printf("Seleccione una opción: ");
+    printf("3. Volver al menu principal\n");
+    printf("Seleccione una opcion: ");
     scanf("%d", &opcion);
 
     switch (opcion) {
@@ -124,46 +125,33 @@ void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUs
   } while (opcion != 3);
 }
 
-void menuTransacciones(
-    NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,/*NodoTransaccion **InicioTransacciones,*/ int *IDUsuarios, int *IDLibros) {
+void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
     limpiarPantalla();
     printf("\n****MENU DE TRANSACCIONES****\n");
     printf("1. Realizar prestamo\n");
     printf("2. Realizar devolucion\n");
-    printf("3. Volver al menu principal\n");
+    printf("3. Mostrar transacciones vigentes\n");
+    printf("4. Volver al menu principal\n");
     printf("Seleccione una opcion: ");
     scanf("%d", &opcion);
 
     switch (opcion) {
     case 1:
-      // RealizarPrestamo(InicioUsuarios, InicioLibros, InicioTransacciones,
-      // IDUsuarios, IDLibros);
+      RealizarPrestamo(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
       break;
     case 2:
-      // RealizarDevolucion(InicioUsuarios, InicioLibros, InicioTransacciones);
+      RealizarDevolucion(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
     case 3:
-      // Volver al menú principal
+      MostrarUsuariosConLibrosPrestados(InicioUsuarios);
+      break;
+    case 4: 
+      //Volver al menu principal
       return;
     default:
       printf("Opcion no valida. Intente de nuevo:\n");
     }
-  } while (opcion != 3);
-}
-
-void limpiarPantalla() {
-#ifdef _WIN32
-  system("cls");
-#else
-  system("clear");
-#endif
-}
-
-void pausar() {
-  printf("Presione Enter para volver al menu principal...");
-  while (getchar() != '\n')
-    ;
-  getchar(); // Espera la pulsacion del ENTER
+  } while (opcion != 4);
 }
