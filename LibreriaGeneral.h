@@ -31,6 +31,11 @@ typedef struct usuarios
     fecha fecha_nac;
 } usuarios;
 
+typedef struct NodoUsuario{
+    usuarios Dato;
+    struct NodoUsuario* sgt;
+}NodoUsuario;
+
 typedef struct prestamos_devoluciones
 {
     struct libros *libro_prestado; // puntero al libro prestado
@@ -38,5 +43,17 @@ typedef struct prestamos_devoluciones
     time_t fecha_prestamo;        
     time_t fecha_devolucion;      
 } prestamos_devoluciones;
+
+typedef struct NodoLibro
+{
+    libros Dato;
+    struct NodoLibro *sgt;
+} NodoLibro;
+
+typedef struct NodoTransaccion
+{
+    prestamos_devoluciones Dato;
+    struct NodoTransaccion *sgt;
+} NodoTransaccion;
 
 #endif
