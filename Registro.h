@@ -2,18 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include "LibreriaGeneral.h"
-//#include "Transacciones.h"
-
-//-----------------------------------PROTOTIPOS DE FUNCIONES--------------------------------------------------------
 
 #ifndef Registro_h
 #define Registro_h
 
-typedef struct NodoUsuario{
-    usuarios Dato;
-    struct NodoUsuario* sgt;
-}NodoUsuario;
-
+//-----------------------------PROTOTIPOS DE FUNCIONES-----------------------------------------
 
 void RegistrarUsuario(usuarios, NodoUsuario**);
 void RegistroManualUsuario(NodoUsuario**, int*);
@@ -23,9 +16,18 @@ void Insertar_NodoUsuario(NodoUsuario** Inicio, usuarios dato);
 void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl);
 void Imprimir_Lista_Usuarios(NodoUsuario** Inicio);
 void ImprimirUsuario(usuarios User);
+void RegistrarLibro(libros, NodoLibro **);
+void RegistroManualLibro(NodoLibro **, int *);
+libros IngresoManualLibro(int *ID);
+NodoLibro *Crear_NodoLibro(libros dato);
+void Insertar_NodoLibro(NodoLibro **Inicio, libros dato);
+void Imprimir_Lista_Libros(NodoLibro **Inicio);
+void ImprimirLibro(libros Libro);
 void limpiarPantalla();
 void pausar();
 
+
+//Funciones de registro, creaccion, impresion y mas de Libros
 
 void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio){//Esta funcion en caso de hacer cosas posterior al Inserte
     Insertar_NodoUsuario(Inicio, UsuarioIngresar);
@@ -120,19 +122,8 @@ void ImprimirUsuario(usuarios User){
     return;
 }
 
-typedef struct NodoLibro
-{
-    libros Dato;
-    struct NodoLibro *sgt;
-} NodoLibro;
 
-void RegistrarLibro(libros, NodoLibro **);
-void RegistroManualLibro(NodoLibro **, int *);
-libros IngresoManualLibro(int *ID);
-NodoLibro *Crear_NodoLibro(libros dato);
-void Insertar_NodoLibro(NodoLibro **Inicio, libros dato);
-void Imprimir_Lista_Libros(NodoLibro **Inicio);
-void ImprimirLibro(libros Libro);
+//Funciones de registro, creaccion, impresion y mas de Libros
 
 void RegistrarLibro(libros LibroIngresar, NodoLibro **Inicio)
 {
