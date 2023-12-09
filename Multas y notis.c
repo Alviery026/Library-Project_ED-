@@ -27,7 +27,7 @@ typedef struct usuarios {
     notificaciones NotificacionesUsuario;  // Campo para notificaciones
 } usuarios;
 
-// Definición de nodos para listas enlazadas
+// Definicion de nodos para listas enlazadas
 typedef struct NodoUsuario {
     usuarios Dato;
     struct NodoUsuario *sgt;
@@ -43,7 +43,7 @@ typedef struct libros {
     fecha anio_publicacion;
 } libros;
 
-// Definición de nodos para listas enlazadas
+// DefiniciÃ³n de nodos para listas enlazadas
 typedef struct NodoUsuario {
     usuarios Dato;
     struct NodoUsuario *sgt;
@@ -54,7 +54,7 @@ typedef struct NodoLibro {
     struct NodoLibro *sgt;
 } NodoLibro;
 
-// Prototipos de funciones
+// funciones
 void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
 void GenerarMultas(NodoUsuario **InicioUsuarios);
 void GenerarNotificaciones(NodoUsuario **InicioUsuarios);
@@ -64,25 +64,24 @@ int CalcularMontoMulta(int diasRetraso);
 
 
 
-// Función principal
 int main(void) {
     NodoUsuario *InicioUsuarios = NULL;
     NodoLibro *InicioLibros = NULL;
     int IDUsuarios = 1;
     int IDLibros = 1;
 
-    // Llamar a la función para cargar datos predeterminados
+    //  cargar datos predeterminados
     CargarDatosPredeterminados(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros);
 
-    // Menú principal
+
     menuPrincipal(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros);
 
     return 0;
 }
 
-// ... (Otras funciones como limpiarPantalla, pausar, etc.)
 
-// Función para generar multas y notificaciones
+
+// generar multas y notificaciones
 void GenerarMultas(NodoUsuario **InicioUsuarios) {
     time_t ahora = time(NULL);
     struct tm *tm_actual = localtime(&ahora);
@@ -94,18 +93,18 @@ void GenerarMultas(NodoUsuario **InicioUsuarios) {
 
         if (diasRetraso > 0) {
             int montoMulta = CalcularMontoMulta(diasRetraso);
-            // Actualizar multa y notificación
+            // Actualizar multa y notificaciÃ³n
             (*aux)->MultasUsuario.monto = montoMulta;
-            strcpy((*aux)->NotificacionesUsuario.mensaje, "Tiene una multa pendiente. Por favor, regularice su situación.");
+            strcpy((*aux)->NotificacionesUsuario.mensaje, "Tiene una multa pendiente. Por favor, regularice su situaciÃ³n.");
         }
 
         aux = &(*aux)->sgt;
     }
 }
 
-// Función para calcular días de retraso
+//  calcular dÃ­as de retraso
 int CalcularDiasRetraso(fecha fecha_generacion, fecha fecha_actual) {
-    // Supongamos que estamos manejando fechas en el mismo año
+   
     int diasRetraso = 0;
 
     if (fecha_actual.mes == fecha_generacion.mes) {
@@ -117,18 +116,18 @@ int CalcularDiasRetraso(fecha fecha_generacion, fecha fecha_actual) {
     return diasRetraso;
 }
 
-// Función para calcular el monto de la multa
+//  calcular el monto de la multa
 int CalcularMontoMulta(int diasRetraso) {
-    // Implementación simple: $100 por el primer día y $50 adicionales por cada día subsiguiente
+    //  $100 por el primer dÃ­a y $50 adicionales por cada dÃ­a subsiguiente
     if (diasRetraso > 0) {
         int montoMulta = 100 + (diasRetraso - 1) * 50;
         return montoMulta;
     } else {
-        return 0;  // No hay retraso, sin multa
+        return 0;  // no hay retraso, sin multa
     }
 }
 
-// Función para generar notificaciones
+// generar notificaciones
 void GenerarNotificaciones(NodoUsuario **InicioUsuarios) {
     time_t ahora = time(NULL);
     struct tm *tm_actual = localtime(&ahora);
@@ -139,13 +138,12 @@ void GenerarNotificaciones(NodoUsuario **InicioUsuarios) {
         int diasRetraso = CalcularDiasRetraso((*aux)->MultasUsuario.fecha_generacion, fecha_actual);
 
         if (diasRetraso > 0) {
-            // Actualizar notificación
-            sprintf((*aux)->NotificacionesUsuario.mensaje, "Recordatorio: Tiene una multa de $%d pendiente. Por favor, regularice su situación.", (*aux)->MultasUsuario.monto);
+            // notificaciÃ³n
+            sprintf((*aux)->NotificacionesUsuario.mensaje, "Recordatorio: Tiene una multa de $%d pendiente. Por favor, regularice su situaciÃ³n.", (*aux)->MultasUsuario.monto);
         }
 
         aux = &(*aux)->sgt;
     }
 }
 
-// ... (Otras funciones y definiciones)
 
