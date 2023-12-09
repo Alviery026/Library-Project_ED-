@@ -9,9 +9,14 @@
 
 //-----------------------------PROTOTIPOS DE FUNCIONES-----------------------------------------
 
-void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
+
+int obtenerIDUsuario();
+int obtenerIDLibro();
+void realizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
+void realizarTransaccion(NodoTransaccion **InicioTransacciones, NodoUsuario **usuario, NodoLibro **libro, time_t fechaActual, time_t fechaVencimiento);
 void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
 void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
+
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato);
 
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato){
@@ -24,27 +29,36 @@ NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_dev
     return NULL;
 }
 
-void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros){
-    limpiarPantalla();
-    printf("****REALIZAR PRESTAMO****\n");
 
-    int idUsuario, idLibro;
+int obtenerIDUsuario() {
+    int idUsuario;
     printf("Ingrese el ID del usuario que realizara el prestamo: ");
     scanf("%d", &idUsuario);
+    return idUsuario;
+}
 
+int obtenerIDLibro() {
+    int idLibro;
+    printf("Ingrese el ID del libro que se prestara: ");
+    scanf("%d", &idLibro);
+    return idLibro;
+}
+
+void realizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones) {
+    limpiarPantalla();
+
+    printf("****REALIZAR PRESTAMO****\n");
+
+    int idUsuario = obtenerIDUsuario();
     NodoUsuario **usuario = Buscar_NodoUsuario(InicioUsuarios, (usuarios){.id_usuario = idUsuario});
-    if (!usuario)
-    {
+    if (!usuario) {
         printf("Usuario no encontrado. Verifique el ID.\n");
         return;
     }
 
-    printf("Ingrese el ID del libro que se prestara: ");
-    scanf("%d", &idLibro);
-
+    int idLibro = obtenerIDLibro();
     NodoLibro **libro = Buscar_NodoLibro(InicioLibros, (libros){.id_libro = idLibro});
-    if (!libro)
-    {
+    if (!libro) {
         printf("Libro no encontrado. Verifique el ID.\n");
         return;
     }
@@ -54,7 +68,11 @@ void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, No
     local->tm_mday += 15; // Se establece la fecha de vencimiento a 15 días desde la fecha actual
     time_t fechaVencimiento = mktime(local);
 
-     prestamos_devoluciones nuevaTransaccion = {
+    realizarTransaccion(InicioTransacciones, usuario, libro, fechaActual, fechaVencimiento);
+}
+
+void realizarTransaccion(NodoTransaccion **InicioTransacciones, NodoUsuario **usuario, NodoLibro **libro, time_t fechaActual, time_t fechaVencimiento) {
+    prestamos_devoluciones nuevaTransaccion = {
         .libro_prestado = &(*libro)->Dato,
         .usuario = &(*usuario)->Dato,
         .fecha_prestamo = fechaActual,
@@ -62,8 +80,7 @@ void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, No
     };
 
     NodoTransaccion *nuevoNodoTransaccion = (NodoTransaccion *)malloc(sizeof(NodoTransaccion));
-    if (!nuevoNodoTransaccion)
-    {
+    if (!nuevoNodoTransaccion) {
         printf("Error al asignar memoria para la transaccion.\n");
         return;
     }
@@ -115,7 +132,7 @@ void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, 
     if (fechaActual > (*transaccion)->Dato.fecha_devolucion)
     {
         printf("El libro esta devuelto con retraso. Se aplicaran multas.\n");
-        // Aquí puedes agregar la lógica para aplicar multas.
+        //Aqui multas funcion o algo
     }
 
     (*usuario)->Dato.libros_prestados--; // Decrementar el contador de libros prestados del usuario
