@@ -33,7 +33,7 @@ typedef struct usuarios
 
 typedef struct prestamos_devoluciones
 {
-    struct libro *libro_prestado; // puntero al libro prestado
+    struct libros *libro_prestado; // puntero al libro prestado
     struct usuarios *usuario;     // puntero al usuario que tiene el libro prestado
     time_t fecha_prestamo;        
     time_t fecha_devolucion;      
