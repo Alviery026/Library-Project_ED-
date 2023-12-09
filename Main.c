@@ -30,6 +30,11 @@ int main(void) {
   return 0;
 }
 
+
+
+
+//FUNCIONES DE MENÚS:
+
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   
   int opcion;
