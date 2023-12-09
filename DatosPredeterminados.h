@@ -3,6 +3,7 @@
 
 #include "LibreriaGeneral.h"
 #include "Registro.h"
+//#include "Transacciones.h"
 
 void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
 
