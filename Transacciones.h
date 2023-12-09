@@ -1,20 +1,14 @@
+#ifndef Transacciones_h
+#define Transacciones_h
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "LibreriaGeneral.h"
 #include "Registro.h"
 
-#ifndef Transacciones_h
-#define Transacciones_h
+//-----------------------------PROTOTIPOS DE FUNCIONES-----------------------------------------
 
-typedef struct NodoTransaccion
-{
-    prestamos_devoluciones Dato;
-    struct NodoTransaccion *sgt;
-} NodoTransaccion;
-
-void limpiarPantalla();
-void pausar();
 void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
 void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
