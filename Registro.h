@@ -256,7 +256,7 @@ void limpiarPantalla() {
 }
 
 void pausar() {
-  printf("Presione Enter para volver al menu principal...");
+  printf("\nPresione Enter para volver al menu anterior...");
   while (getchar() != '\n')
     ;
   getchar(); // Espera la pulsacion del ENTER
