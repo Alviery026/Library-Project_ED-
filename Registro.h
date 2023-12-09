@@ -27,7 +27,7 @@ void limpiarPantalla();
 void pausar();
 
 
-//Funciones de registro, creaccion, impresion y mas de Libros
+//Funciones de registro, creaccion, impresion y mas de usuario
 
 void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio){//Esta funcion en caso de hacer cosas posterior al Inserte
     Insertar_NodoUsuario(Inicio, UsuarioIngresar);
