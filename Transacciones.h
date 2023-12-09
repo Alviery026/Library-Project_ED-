@@ -17,7 +17,7 @@ void limpiarPantalla();
 void pausar();
 void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
-void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios);
+void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones);
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato);
 
 NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_devoluciones dato){
@@ -30,8 +30,7 @@ NodoTransaccion **Buscar_NodoTransaccion(NodoTransaccion **Inicio, prestamos_dev
     return NULL;
 }
 
-void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros)
-{
+void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros){
     limpiarPantalla();
     printf("****REALIZAR PRESTAMO****\n");
 
@@ -135,18 +134,44 @@ void RealizarDevolucion(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, 
     printf("Devolucion realizada con exito.\n");
 }
 
-void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios) {
+
+void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones){
     limpiarPantalla();
     printf("****USUARIOS CON LIBROS PRESTADOS****\n");
 
-    NodoUsuario **aux = InicioUsuarios;
-    while (*aux) {
-        if ((*aux)->Dato.libros_prestados > 0) {
-            ImprimirUsuario((*aux)->Dato);
-            printf("Numero de libros prestados: %d\n", (*aux)->Dato.libros_prestados);
-            printf("----------------------\n");
+    NodoUsuario **auxUsuario = InicioUsuarios;
+    int transaccionesEncontradas = 0;  // Bandera para indicar si se encontraron transacciones
+
+    while (*auxUsuario)
+    {
+        if ((*auxUsuario)->Dato.libros_prestados > 0)
+        {
+            transaccionesEncontradas = 1;  // Se encontró al menos una transacción
+            ImprimirUsuario((*auxUsuario)->Dato);
+            printf("Libros Prestados:\n");
+
+            NodoTransaccion **auxTransaccion = InicioTransacciones;
+
+            while (*auxTransaccion)
+            {
+                if ((*auxTransaccion)->Dato.usuario == &(*auxUsuario)->Dato)
+                {
+                    // Imprimir información del libro
+                    printf("ID del Usuario: %d\n", (*auxUsuario)->Dato.id_usuario);
+                    printf("ID del Libro: %d\n", (*auxTransaccion)->Dato.libro_prestado->id_libro);
+                    printf("Titulo del Libro: %s\n", (*auxTransaccion)->Dato.libro_prestado->titulo);
+                    printf("Fecha de Prestamo: %s", ctime(&(*auxTransaccion)->Dato.fecha_prestamo));
+                    printf("----------------------\n");
+                }
+
+                auxTransaccion = &(*auxTransaccion)->sgt;
+            }
         }
-        aux = &(*aux)->sgt;
+        auxUsuario = &(*auxUsuario)->sgt;
+    }
+
+    if (!transaccionesEncontradas) {
+        printf("No hay transacciones vigentes.\n");
     }
 
     pausar();
