@@ -6,12 +6,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Declaración de  de menús del programa y otras funciones de uso vital para el programa:
+// Declaración de  de menús del programa
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
 void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
-void MostrarUsuariosConLibrosPrestados(NodoUsuario **InicioUsuarios);
 
 int main(void) {
   NodoUsuario *InicioUsuarios = NULL; // Inicialización lista usuarios
@@ -145,7 +144,7 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,No
       RealizarDevolucion(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
     case 3:
-      MostrarUsuariosConLibrosPrestados(InicioUsuarios);
+      MostrarUsuariosConLibrosPrestados(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
     case 4: 
       //Volver al menu principal
