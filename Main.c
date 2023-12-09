@@ -6,10 +6,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Declaración de la función calcularFechaVencimiento
+time_t calcularFechaVencimiento(time_t fechaActual);
+
 // Declaración de  de menús del programa
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
-void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
-void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
+void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros, NodoTransaccion **InicioTransacciones);
+void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
 
 int main(void) {
@@ -18,6 +21,11 @@ int main(void) {
   NodoTransaccion *InicioTransacciones = NULL; // Inicialización lista Transaccion
   int IDUsuarios = 1;                 // Inicialización ID para usuarios
   int IDLibros = 1;                   // Inicialización ID para libros
+
+    // Obtener la fecha actual y de vencimiento
+    time_t fechaActual;
+    time(&fechaActual);
+    time_t fechaVencimiento = calcularFechaVencimiento(fechaActual);
 
 
   // Llamada de la función para cargar datos predeterminados
@@ -46,36 +54,36 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTr
     printf("3.- Transaccion\n");
     printf("4.- Multas y recordatorios\n");
     printf("5.- Notificaciones\n");
-    printf("6. Salir del programa\n");
+    printf("6.- Salir del programa\n");
     printf("Seleccione una opcion: ");
     scanf("%d", &opcion);
 
-    switch (opcion) {
-    case 1:
-      menuUsuarios(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
-      break;
-    case 2:
-      menuLibros(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
-      break;
-    case 3:
-      menuTransacciones(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
-      break;
-    case 4:
-      // Agrega la lógica para multas y recordatorios
-      break;
-    case 5:
-      // Agrega la lógica para notificaciones
-      break;
-    case 6:
-      printf("Saliendo del programa...\n");
-      return;
-    default:
-      printf("Opcion no valida. Intente de nuevo.\n");
-    }
-  } while (opcion != 6);
+        switch (opcion) {
+            case 1:
+                menuUsuarios(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros, InicioTransacciones);
+                break;
+            case 2:
+                menuLibros(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
+                break;
+            case 3:
+                menuTransacciones(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
+                break;
+            case 4:
+                //menuMultas(InicioUsuarios, InicioTransacciones);
+                break;
+            case 5:
+                //menuNotificaciones(InicioUsuarios);
+                break;
+            case 6:
+                printf("Saliendo del programa...\n");
+                return;
+            default:
+                printf("Opcion no valida. Intente de nuevo.\n");
+        }
+    } while (opcion != 6);
 }
 
-void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros) {
+void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros, NodoTransaccion **InicioTransacciones) {
   int opcion;
   do {
     limpiarPantalla();
@@ -143,7 +151,10 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,No
 
     switch (opcion) {
     case 1:
-      RealizarPrestamo(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
+    time_t fechaActual;
+    time(&fechaActual);
+    time_t fechaVencimiento = calcularFechaVencimiento(fechaActual);
+    realizarTransaccion(&InicioTransacciones, &InicioUsuarios, &InicioLibros, fechaActual, fechaVencimiento);
       break;
     case 2:
       RealizarDevolucion(InicioUsuarios, InicioLibros, InicioTransacciones);
