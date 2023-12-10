@@ -1,5 +1,3 @@
-// multasynotis.h
-
 #ifndef MultasYNotis_h
 #define MultasYNotis_h
 
