@@ -1,3 +1,4 @@
+// multasynotis.h
 
 #ifndef MultasYNotis_h
 #define MultasYNotis_h
@@ -6,38 +7,30 @@
 #include "Registro.h"
 #include "Transacciones.h"
 
+// struct para representar multas y recordatorios
 typedef struct {
     NodoUsuario *usuario;
-    int monto;
-    fecha fecha_generacion;
-} multas;
+    NodoLibro *libro;
+    time_t fecha_devolucion;
+    int dias_atraso;
+} MultaRecordatorio;
 
-typedef struct {
-    NodoUsuario *usuario;
-    char mensaje[100];
-    fecha fecha_generacion;
-} notificaciones;
+void VerMultasRecordatorios(NodoTransaccion **InicioTransacciones);
+void AgregarMultaRecordatorio(NodoUsuario *usuario, NodoLibro *libro, time_t fecha_devolucion, int dias_atraso);
+void ProcesarMultasRecordatorios(NodoTransaccion **InicioTransacciones, NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros);
+void RealizarPrestamo(NodoUsuario** InicioUsuarios, NodoLibro** InicioLibros, NodoTransaccion** InicioTransacciones, int* IDUsuarios, int* IDLibros);
+// calcular días de atraso
+static inline int CalcularDiasAtraso(time_t fecha_devolucion) {
+    time_t ahora;
+    time(&ahora);
 
-void GenerarMultasYNotificaciones(NodoUsuario **InicioUsuarios, NodoTransaccion **InicioTransacciones);
+    //  calcula la diferencia en segundos entre las dos fechas
+    double diferencia = difftime(ahora, fecha_devolucion);
 
-void GenerarMultasYNotificaciones(NodoUsuario **InicioUsuarios, NodoTransaccion **InicioTransacciones) {
-    time_t ahora = time(NULL);
-    struct tm *tm_actual = localtime(&ahora);
-    fecha fecha_actual = {tm_actual->tm_mday, tm_actual->tm_mon + 1, tm_actual->tm_year + 1900};
+    // convierte la diferencia de segundos a días
+    int dias_atraso = diferencia / (24 * 60 * 60);  // 24 horas, 60 minutos, 60 segundos
 
-    NodoUsuario **aux = InicioUsuarios;
-    while (*aux) {
-        int diasRetraso = CalcularDiasRetraso((*aux)->MultasUsuario.fecha_generacion, fecha_actual);
-
-        if (diasRetraso > 0) {
-            int montoMulta = CalcularMontoMulta(diasRetraso);
-            // Actualizar multa y notificación
-            (*aux)->MultasUsuario.monto = montoMulta;
-            strcpy((*aux)->NotificacionesUsuario.mensaje, "Tiene una multa pendiente. Por favor, regularice su situación.");
-        }
-
-        aux = &(*aux)->sgt;
-    }
+    return dias_atraso;
 }
 
 #endif
