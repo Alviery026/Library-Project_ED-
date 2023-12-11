@@ -3,6 +3,7 @@
 #include "Transacciones.h"
 #include "Multas.c"
 #include "Multas.h"
+#include "Recordatorios.c"
 #include "Recordatorios.h"
 #include "LibreriaGeneral.h"
 #include <stdio.h>
@@ -16,6 +17,7 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *ID
 void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
 void menuMultas(struct NodoUsuario** InicioUsuarios);
+void menuNotificaciones(NodoUsuario **InicioUsuarios);
 
 int main(void) {
   NodoUsuario *InicioUsuarios = NULL; // Inicialización lista usuarios
@@ -47,8 +49,8 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoT
     printf("1.- Usuarios\n");
     printf("2.- Catalogo de Libros\n");
     printf("3.- Transaccion\n");
-    printf("4.- Multas y recordatorios\n");
-    printf("5.- Notificaciones\n");
+    printf("4.- Multas\n");
+    printf("5.- Notificaciones y recordatorios\n");
     printf("6. Salir del programa\n");
     printf("Seleccione una opcion: ");
     scanf("%d", &opcion);
@@ -67,7 +69,7 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoT
       menuMultas(InicioUsuarios);
       break;
     case 5:
-      // Agrega la lógica para notificaciones
+      menuNotificaciones(InicioUsuarios);
       break;
     case 6:
       printf("Saliendo del programa...\n");
@@ -165,7 +167,7 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, N
 
 void menuMultas(struct NodoUsuario** InicioUsuarios) {
     int opcion;
-    float monto = 50.0;  // Asignar el valor predeterminado de la multa
+    float monto = 100.0;  // Asignar el valor predeterminado de la multa
 
     do {
         limpiarPantalla();
@@ -186,4 +188,31 @@ void menuMultas(struct NodoUsuario** InicioUsuarios) {
             printf("Opcion no valida. Intente de nuevo:\n");
         }
     } while (opcion != 2);
+}
+
+void menuNotificaciones(NodoUsuario **InicioUsuarios) {
+    int opcion;
+    do {
+        limpiarPantalla();
+        printf("\n****MENU DE NOTIFICACIONES****\n");
+        printf("1. Enviar recordatorios de multas\n");
+        printf("2. Otra opción de notificacion\n");
+        printf("3. Volver al menu principal\n");
+        printf("Seleccione una opcion: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                EnviarRecordatoriosMultas(InicioUsuarios);
+                break;
+            case 2:
+                VisualizarNotificacionesEnviadas(InicioUsuarios);
+                break;
+            case 3:
+                // Volver al menú principal
+                return;
+            default:
+                printf("Opcion no valida. Intente de nuevo:\n");
+        }
+    } while (opcion != 3);
 }
