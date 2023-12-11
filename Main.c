@@ -1,16 +1,21 @@
 #include "DatosPredeterminados.h"
-#include "LibreriaGeneral.h"
 #include "Registro.h"
 #include "Transacciones.h"
+#include "Multas.c"
+#include "Multas.h"
+#include "Recordatorios.h"
+#include "LibreriaGeneral.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 
 // Declaración de  de menús del programa
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros);
 void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
+void menuMultas(struct NodoUsuario** InicioUsuarios);
 
 int main(void) {
   NodoUsuario *InicioUsuarios = NULL; // Inicialización lista usuarios
@@ -19,13 +24,10 @@ int main(void) {
   int IDUsuarios = 1;                 // Inicialización ID para usuarios
   int IDLibros = 1;                   // Inicialización ID para libros
 
-
   // Llamada de la función para cargar datos predeterminados
   CargarDatosPredeterminados(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros, &InicioTransacciones);
 
   menuPrincipal(&InicioUsuarios, &InicioLibros, &InicioTransacciones, &IDUsuarios, &IDLibros);
-
-
 
   return 0;
 }
@@ -35,8 +37,9 @@ int main(void) {
 
 //FUNCIONES DE MENÚS:
 
-void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
-  
+//FUNCIONES DE MENÚS:
+
+void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
     limpiarPantalla(); // Limpia la pantalla antes de mostrar el menú principal
@@ -61,7 +64,7 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTr
       menuTransacciones(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
       break;
     case 4:
-      // Agrega la lógica para multas y recordatorios
+      menuMultas(InicioUsuarios);
       break;
     case 5:
       // Agrega la lógica para notificaciones
@@ -75,7 +78,7 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTr
   } while (opcion != 6);
 }
 
-void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros) {
+void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
     limpiarPantalla();
@@ -102,7 +105,7 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *ID
   } while (opcion != 3);
 }
 
-void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUsuarios, int *IDLibros) {
+void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
     limpiarPantalla();
@@ -129,7 +132,7 @@ void menuLibros(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,int *IDUs
   } while (opcion != 3);
 }
 
-void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
+void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
     limpiarPantalla();
@@ -158,4 +161,29 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros,No
       printf("Opcion no valida. Intente de nuevo:\n");
     }
   } while (opcion != 4);
+}
+
+void menuMultas(struct NodoUsuario** InicioUsuarios) {
+    int opcion;
+    float monto = 50.0;  // Asignar el valor predeterminado de la multa
+
+    do {
+        limpiarPantalla();
+        printf("\n****MENU DE MULTAS****\n");
+        printf("1. Aplicar multas\n");
+        printf("2. Volver al menu de transacciones\n");
+        printf("Seleccione una opcion: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+        case 1:
+            AplicarMultas(InicioUsuarios, monto);
+            break;
+        case 2:
+            // Volver al menu de transacciones
+            return;
+        default:
+            printf("Opcion no valida. Intente de nuevo:\n");
+        }
+    } while (opcion != 2);
 }
