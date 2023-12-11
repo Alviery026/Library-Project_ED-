@@ -1,22 +1,28 @@
-
+#ifndef Multas_h
+#define Multas_h
 
 #include "LibreriaGeneral.h"
-#include "Registro.h"
 #include "Transacciones.h"
 
-// struct para representar multas y recordatorios
-typedef struct {
-    NodoUsuario *usuario;
-    NodoLibro *libro;
-    time_t fecha_devolucion;
-    int dias_atraso;
-} MultaRecordatorio;
+// declaración de avance
+struct NodoUsuario;
 
-void VerMultasRecordatorios(NodoTransaccion *InicioTransacciones);
-void AgregarMultaRecordatorio(NodoUsuario *usuario, NodoLibro *libro, time_t fecha_devolucion, int dias_atraso);
-void ProcesarMultasRecordatorios(NodoTransaccion **InicioTransacciones, NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros);
-int CalcularDiasAtraso(time_t fecha_devolucion);
-void RealizarPrestamo(NodoUsuario **InicioUsuarios, NodoLibro **InicioLibros, NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
+typedef struct multas
+{
+    struct NodoTransaccion* transaccion;
+    float monto;
+} multas;
 
+typedef struct NodoMulta
+{
+    multas Dato;
+    struct NodoMulta* sgt;
+} NodoMulta;
 
+void AplicarMultas(struct NodoUsuario** usuario, float monto); // Cambiado a "struct NodoUsuario**"
 
+void VerificarRetraso(struct NodoTransaccion** transaccion, struct NodoUsuario** usuario, float montoMulta); // Cambiado a "struct NodoUsuario**"
+
+void menuMultas(struct NodoUsuario** InicioUsuarios);
+
+#endif
