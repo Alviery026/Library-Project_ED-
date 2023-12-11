@@ -23,6 +23,8 @@ NodoLibro *Crear_NodoLibro(libros dato);
 void Insertar_NodoLibro(NodoLibro **Inicio, libros dato);
 void Imprimir_Lista_Libros(NodoLibro **Inicio);
 void ImprimirLibro(libros Libro);
+void AplicarMultas(NodoUsuario** usuario, float monto);
+void VerificarRetraso(NodoTransaccion** transaccion, NodoUsuario** usuario, float monto);
 void limpiarPantalla();
 void pausar();
 
