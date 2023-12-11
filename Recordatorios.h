@@ -1,15 +1,24 @@
 
+#ifndef Recordatorios_h
+#define Recordatorios_h
 
 #include "LibreriaGeneral.h"
 #include "Registro.h"
+#include "Multas.h"
 
-// struct para representar recordatorios
-typedef struct {
-    NodoUsuario *usuario;
-    NodoLibro *libro;
-    time_t fecha_devolucion;
-} Recordatorio;
 
-static void EnviarRecordatorio(NodoUsuario *usuario, NodoLibro *libro, time_t fecha_devolucion);
-void VerRecordatorios(NodoUsuario *InicioUsuarios, NodoTransaccion *InicioTransacciones);
+typedef struct recordatorios
+{
+    NodoTransaccion* transaccion; // puntero a la transacción asociada al recordatorio
+    char mensaje[100];            // mensaje del recordatorio
+} recordatorios;
 
+typedef struct NodoRecordatorio
+{
+    recordatorios Dato;
+    struct NodoRecordatorio* sgt;
+} NodoRecordatorio;
+
+void EnviarRecordatoriosMultas(struct NodoUsuario** InicioUsuarios);
+
+#endif
