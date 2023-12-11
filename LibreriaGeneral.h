@@ -1,16 +1,19 @@
+#ifndef LibreriaGeneral_h
+#define LibreriaGeneral_h
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-#ifndef LibreriaGeneral_h
-#define LibreriaGeneral_h
+// Declaración de avance
+struct NodoMulta;
 
 typedef struct fecha
 {
     int dia;
     int mes;
     int anio;
-}fecha;
+} fecha;
 
 typedef struct libros
 {
@@ -29,19 +32,22 @@ typedef struct usuarios
     int id_usuario;
     int libros_prestados;
     fecha fecha_nac;
+    struct NodoMulta* multa; // cambiado a "struct NodoMulta*"
+    struct NodoRecordatorio* ListaRecordatorios; // agregado para manejar recordatorios
 } usuarios;
+
 
 typedef struct NodoUsuario{
     usuarios Dato;
     struct NodoUsuario* sgt;
-}NodoUsuario;
+} NodoUsuario;
 
 typedef struct prestamos_devoluciones
 {
-    struct libros *libro_prestado; // puntero al libro prestado
-    struct usuarios *usuario;     // puntero al usuario que tiene el libro prestado
-    time_t fecha_prestamo;        
-    time_t fecha_devolucion;      
+    struct libros *libro_prestado;
+    struct usuarios *usuario;
+    time_t fecha_prestamo;
+    time_t fecha_devolucion;
 } prestamos_devoluciones;
 
 typedef struct NodoLibro
@@ -55,5 +61,6 @@ typedef struct NodoTransaccion
     prestamos_devoluciones Dato;
     struct NodoTransaccion *sgt;
 } NodoTransaccion;
+
 
 #endif
