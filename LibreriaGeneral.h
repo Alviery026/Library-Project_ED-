@@ -1,19 +1,40 @@
-#ifndef LibreriaGeneral_h
-#define LibreriaGeneral_h
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-// Declaración de avance
-struct NodoMulta;
+#ifndef LibreriaGeneral_h
+#define LibreriaGeneral_h
+
+
 
 typedef struct fecha
 {
     int dia;
     int mes;
     int anio;
-} fecha;
+}fecha;
+
+typedef struct usuarios
+{
+    char nombre[40];
+    char apellido[40];
+    int id_usuario;
+    int libros_prestados;
+    fecha fecha_nac;
+    int Multa;
+} usuarios;
+
+// Estructura para representar un nodo de reserva
+typedef struct ReservaNodo {
+    int UsuarioReserva;
+    struct ReservaNodo* siguiente;
+} ReservaNodo;
+
+// Estructura para representar una lista enlazada de reservas
+typedef struct {
+    ReservaNodo* cabeza;
+    ReservaNodo* cola;
+} ListaReservas;
 
 typedef struct libros
 {
@@ -23,38 +44,26 @@ typedef struct libros
     char editorial[50];
     int numero_ejemplares;
     fecha anio_publicacion;
+    ListaReservas* Reservas;
 } libros;
 
-typedef struct usuarios
-{
-    char nombre[40];
-    char apellido[40];
-    int id_usuario;
-    int libros_prestados;
-    fecha fecha_nac;
-    struct NodoMulta* multa; // cambiado a "struct NodoMulta*"
-    struct NodoRecordatorio* ListaRecordatorios; // agregado para manejar recordatorios
-} usuarios;
+
+
 
 
 typedef struct NodoUsuario{
     usuarios Dato;
     struct NodoUsuario* sgt;
-} NodoUsuario;
+}NodoUsuario;
 
 typedef struct prestamos_devoluciones
 {
-    struct libros *libro_prestado;
-    struct usuarios *usuario;
-    time_t fecha_prestamo;
-    time_t fecha_devolucion;
+    struct libros *libro_prestado; // puntero al libro prestado
+    struct usuarios *usuario;     // puntero al usuario que tiene el libro prestado
+    time_t fecha_prestamo;        
+    time_t fecha_devolucion;      
 } prestamos_devoluciones;
 
-typedef struct NodoLibro
-{
-    libros Dato;
-    struct NodoLibro *sgt;
-} NodoLibro;
 
 typedef struct NodoTransaccion
 {
@@ -63,4 +72,27 @@ typedef struct NodoTransaccion
 } NodoTransaccion;
 
 
+
+void limpiarPantalla() {
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
+}
+
+void pausar() {
+  printf("\nPresione Enter para continuar...");
+  while (getchar() != '\n')
+    ;
+  getchar(); // Espera la pulsacion del ENTER
+}
+
+//Funcion para crear Colas Usada en struct libros
+ListaReservas* CrearCola(){
+    ListaReservas* Cola = (ListaReservas*) malloc(sizeof (ListaReservas));
+    Cola->cabeza = NULL;
+    Cola->cola = NULL;
+    return Cola;
+}
 #endif

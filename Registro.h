@@ -8,7 +8,8 @@
 
 //-----------------------------PROTOTIPOS DE FUNCIONES-----------------------------------------
 
-void RegistrarUsuario(usuarios, NodoUsuario**);
+void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio);
+NodoUsuario** Buscar_NodoUsuario(NodoUsuario** Inicio, int dato);
 void RegistroManualUsuario(NodoUsuario**, int*);
 usuarios IngresoManualUsuario(int* ID);
 NodoUsuario* Crear_NodoUsuario(usuarios dato);
@@ -16,24 +17,18 @@ void Insertar_NodoUsuario(NodoUsuario** Inicio, usuarios dato);
 void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl);
 void Imprimir_Lista_Usuarios(NodoUsuario** Inicio);
 void ImprimirUsuario(usuarios User);
-void RegistrarLibro(libros, NodoLibro **);
-void RegistroManualLibro(NodoLibro **, int *);
-libros IngresoManualLibro(int *ID);
-NodoLibro *Crear_NodoLibro(libros dato);
-void Insertar_NodoLibro(NodoLibro **Inicio, libros dato);
-void Imprimir_Lista_Libros(NodoLibro **Inicio);
-void ImprimirLibro(libros Libro);
-void AplicarMultas(NodoUsuario** usuario, float monto);
-void VerificarRetraso(NodoTransaccion** transaccion, NodoUsuario** usuario, float monto);
 void limpiarPantalla();
 void pausar();
 
 
 //Funciones de registro, creaccion, impresion y mas de usuario
 
-void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio){//Esta funcion en caso de hacer cosas posterior al Inserte
-    Insertar_NodoUsuario(Inicio, UsuarioIngresar);
-    return;
+void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio) {
+    if (Buscar_NodoUsuario(Inicio, UsuarioIngresar.id_usuario) == NULL) {
+        Insertar_NodoUsuario(Inicio, UsuarioIngresar);
+    } else {
+        printf("El usuario con ID %d ya existe.\n", UsuarioIngresar.id_usuario);
+    }
 }
 
 void RegistroManualUsuario(NodoUsuario** Inicio, int* ID){
@@ -46,6 +41,7 @@ usuarios IngresoManualUsuario(int* ID){
     usuarios NuevoUsuario;
     NuevoUsuario.id_usuario = *ID;
     NuevoUsuario.libros_prestados = 0;
+    NuevoUsuario.Multa = 0;
 
     fflush(stdin);
     printf("Ingrese el nombre del usuario: ");
@@ -77,36 +73,48 @@ void Insertar_NodoUsuario(NodoUsuario** Inicio, usuarios dato){
     return;
 }
 
-NodoUsuario** Buscar_NodoUsuario(NodoUsuario** Inicio, usuarios dato){
+NodoUsuario** Buscar_NodoUsuario(NodoUsuario** Inicio, int dato){
     while (*Inicio){//Mientras inicio no sea NULL (Se acabe la lista)
-    if((*Inicio)->Dato.id_usuario == dato.id_usuario) //Comparar si el nodo actual contiene el dato
+    if((*Inicio)->Dato.id_usuario == dato) //Comparar si el nodo actual contiene el dato
         return Inicio;// Si sí, retornar conexión al nodo
     Inicio = &((*Inicio))->sgt;//Recorrer lista
     }
     return NULL;
 }
 
-void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl){
-    NodoUsuario** temp; //Crear temporal para no mover inicio
-    if (!(temp = Buscar_NodoUsuario(Inicio, datoEl))) //Buscar elemento, si no existe salir
+void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl) {
+    NodoUsuario* temp = *Inicio;
+    NodoUsuario* prev = NULL;
+
+    while (temp != NULL && temp->Dato.id_usuario != datoEl.id_usuario) {
+        prev = temp;
+        temp = temp->sgt;
+    }
+
+    if (temp == NULL) {
+        printf("Usuario no encontrado.\n");
         return;
-    NodoUsuario *temp2 = *temp; //Crear segundo temporal en dirección del nodo
-    *temp = temp2->sgt;  //Modificar conexion, Nodo
-    free(temp2);         //Liberar Nodo
-    return;
+    }
+
+    if (prev == NULL) {
+        // El nodo a eliminar es el primero
+        *Inicio = temp->sgt;
+    } else {
+        // El nodo a eliminar no es el primero
+        prev->sgt = temp->sgt;
+    }
+
+    free(temp);
+    printf("Usuario eliminado con éxito.\n");
 }
 
 void Imprimir_Lista_Usuarios(NodoUsuario** Inicio){
-    if ((*Inicio)->sgt == *Inicio){
-        ImprimirUsuario((*Inicio)->Dato);
-        return;
-    }
-    NodoUsuario** aux = Inicio;
-    while (((*aux)->sgt != *Inicio)) {
-        ImprimirUsuario((*aux)->Dato);
-        aux = &(*aux)->sgt;           
-    }
-    return;
+  int i = 0;
+  while ((*Inicio)) {                              
+    ImprimirUsuario((*Inicio)->Dato);
+    Inicio = &((*Inicio)->sgt);
+  }
+  return;
 }
 
 void ImprimirUsuario(usuarios User){
@@ -120,139 +128,14 @@ void ImprimirUsuario(usuarios User){
     puts("");
     printf("Libros Prestados  %d", User.libros_prestados);
     puts("");
-    puts("");
-    return;
-}
-
-
-//Funciones de registro, creaccion, impresion y mas de Libros
-
-void RegistrarLibro(libros LibroIngresar, NodoLibro **Inicio)
-{
-    Insertar_NodoLibro(Inicio, LibroIngresar);
-    return;
-}
-
-void RegistroManualLibro(NodoLibro **Inicio, int *ID)
-{
-    libros NuevoLibro = IngresoManualLibro(ID);
-    RegistrarLibro(NuevoLibro, Inicio);
-    return;
-}
-
-libros IngresoManualLibro(int *ID)
-{
-    libros NuevoLibro;
-    NuevoLibro.id_libro = *ID;
-
-    fflush(stdin);
-    printf("Ingrese el titulo del libro: ");
-    scanf("%50[^\n]", NuevoLibro.titulo);
-    fflush(stdin);
-    printf("Ingrese el autor del libro: ");
-    scanf("%50[^\n]", NuevoLibro.autor);
-    fflush(stdin);
-    printf("Ingrese la editorial del libro: ");
-    scanf("%50[^\n]", NuevoLibro.editorial);
-    fflush(stdin);
-    printf("Ingrese el numero de ejemplares del libro: ");
-    scanf("%d", &NuevoLibro.numero_ejemplares);
-    fflush(stdin);
-    printf("Ingrese el año de publicacion del libro: ");
-    scanf("%d", &NuevoLibro.anio_publicacion.anio);
-    fflush(stdin);
-
-    *ID += 1;
-    return NuevoLibro;
-}
-
-NodoLibro *Crear_NodoLibro(libros dato)
-{
-    NodoLibro *NewNode = (NodoLibro *)malloc(sizeof(NodoLibro));
-    if (!NewNode)
-        return NULL;
-    NewNode->Dato = dato;
-    NewNode->sgt = NULL;
-    return NewNode;
-}
-
-void Insertar_NodoLibro(NodoLibro **Inicio, libros dato)
-{
-    NodoLibro *NodoInsert = Crear_NodoLibro(dato);
-    NodoInsert->sgt = *Inicio;
-    *Inicio = NodoInsert;
-    return;
-}
-
-NodoLibro **Buscar_NodoLibro(NodoLibro **Inicio, libros dato)
-{
-    while (*Inicio)
-    {
-        if ((*Inicio)->Dato.id_libro == dato.id_libro)
-            return Inicio;
-        Inicio = &((*Inicio))->sgt;
+    if (User.Multa > 0){
+        printf("Multas por pagar $%d", User.Multa);
+        puts("");
     }
-    return NULL;
-}
-
-void Eliminar_NodoLibro(NodoLibro **Inicio, libros datoEl)
-{
-    NodoLibro **temp;
-    if (!(temp = Buscar_NodoLibro(Inicio, datoEl)))
-        return;
-    NodoLibro *temp2 = *temp;
-    *temp = temp2->sgt;
-    free(temp2);
-    return;
-}
-
-void Imprimir_Lista_Libros(NodoLibro **Inicio)
-{
-    if ((*Inicio)->sgt == *Inicio)
-    {
-        ImprimirLibro((*Inicio)->Dato);
-        return;
-    }
-    NodoLibro **aux = Inicio;
-    while (((*aux)->sgt != *Inicio))
-    {
-        ImprimirLibro((*aux)->Dato);
-        aux = &(*aux)->sgt;
-    }
-    return;
-}
-
-void ImprimirLibro(libros Libro)
-{
-    printf("ID\t\t %d", Libro.id_libro);
-    puts("");
-    printf("Titulo\t\t %s", Libro.titulo);
-    puts("");
-    printf("Autor\t\t %s", Libro.autor);
-    puts("");
-    printf("Editorial\t %s", Libro.editorial);
-    puts("");
-    printf("Ejemplares\t %d", Libro.numero_ejemplares);
-    puts("");
-    printf("Anio Publicacion\t %d", Libro.anio_publicacion.anio);
-    puts("");
     puts("");
     return;
 }
 
-void limpiarPantalla() {
-#ifdef _WIN32
-  system("cls");
-#else
-  system("clear");
-#endif
-}
 
-void pausar() {
-  printf("\nPresione Enter para volver al menu anterior...");
-  while (getchar() != '\n')
-    ;
-  getchar(); // Espera la pulsacion del ENTER
-}
 
 #endif
