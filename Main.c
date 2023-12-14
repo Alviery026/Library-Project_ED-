@@ -15,6 +15,7 @@ void menuLibros(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros, int *IDUs
 void menuMultas(NodoUsuario** InicioUsuarios);
 void menuNotificaciones(NodoUsuario** InicioUsuarios, NodoTrie** InicioLibros, NodoTransaccion** InicioTransaccion);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
+void acercaDeNosotros();
 
 // Función principal del programa
 int main(void) {
@@ -53,7 +54,8 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTra
     printf("3.- Transaccion\n");
     printf("4.- Multas\n");
     printf("5.- Notificaciones\n");
-    printf("6. Salir del programa\n");
+    printf("6.- Acerca de nosotros\n");
+    printf("7. Salir del programa\n");
     printf("Seleccione una opcion: ");
     scanf("%d", &opcion);
 
@@ -81,15 +83,17 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTra
       menuNotificaciones(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
     case 6:
+      // Ir a la funcion de informacion del equipo
+      acercaDeNosotros();
+      break;
+    case 7:
       // Salir del programa
-      printf("\n::::::::::::::::::::::::::::::::::::\n");
-      printf("->Saliendo del programa...\n");
-      printf("::::::::::::::::::::::::::::::::::::\n");
+      printf("\n->Saliendo del programa...\n");
       return;
     default:
       printf("Opcion no valida. Intente de nuevo.\n");
     }
-  } while (opcion != 6);
+  } while (opcion != 7);
 }
 
 // Menú de usuarios
@@ -242,4 +246,26 @@ void menuNotificaciones(NodoUsuario** InicioUsuarios, NodoTrie** InicioLibros, N
       break;
     }
   }while (opcion != 2);
+}
+
+// Función para mostrar la información del equipo
+void acercaDeNosotros() {
+    limpiarPantalla();
+    printf("----------------------------------------\n");
+    printf("****ACERCA DE NOSOTROS - EQUIPO 7****\n");
+    printf("----------------------------------------\n");
+
+    printf("\nMIEMBROS:\n");
+    printf("-> Policarpio Moran Michell Alexis - zs21002379\n");
+    printf("-> Villar Caparroso Jose Antonio - zs21002440\n");
+    printf("-> Rios Valtierra Bryant Alviery - zs20004637\n");
+    printf("-> Valdes Palmero Jair de Jesus - zs19022211\n");
+
+    printf("\nDOCENTE: Fleitas Toranzo Yadira\n");
+    printf("\nMATERIA: Estructura de Datos - NRC: 21602 \n");
+    printf("\nPROYECTO: Biblioteca\n");
+    printf("\nFacultad de Ingenieria Electrica y Electronica (FIEE) \n\nUniversidad Veracruzana (UV)\n");
+
+    // Pausa para que el usuario pueda ver la información
+    pausar();
 }
