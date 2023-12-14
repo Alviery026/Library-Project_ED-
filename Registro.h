@@ -21,8 +21,9 @@ void limpiarPantalla();
 void pausar();
 
 
-//Funciones de registro, creaccion, impresion y mas de usuario
+//Funciones de registro, creaccion, impresion y mas de usuario:
 
+// Función para registrar un usuario en la lista
 void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio) {
     if (Buscar_NodoUsuario(Inicio, UsuarioIngresar.id_usuario) == NULL) {
         Insertar_NodoUsuario(Inicio, UsuarioIngresar);
@@ -31,12 +32,14 @@ void RegistrarUsuario(usuarios UsuarioIngresar, NodoUsuario** Inicio) {
     }
 }
 
+// Función para realizar el registro manual de un usuario
 void RegistroManualUsuario(NodoUsuario** Inicio, int* ID){
     usuarios NuevoUsuario = IngresoManualUsuario(ID);
     RegistrarUsuario(NuevoUsuario, Inicio);
     return;
 }
 
+// Función para ingresar manualmente los datos de un usuario
 usuarios IngresoManualUsuario(int* ID){
     usuarios NuevoUsuario;
     NuevoUsuario.id_usuario = *ID;
@@ -57,6 +60,7 @@ usuarios IngresoManualUsuario(int* ID){
     return NuevoUsuario;
 }
 
+// Función para crear un nuevo nodo de usuario
 NodoUsuario* Crear_NodoUsuario(usuarios dato){
     NodoUsuario* NewNode = (NodoUsuario *)malloc(sizeof(NodoUsuario));//Crear Nodo
     if (!NewNode)                                //Verificar si se creo correctamente
@@ -66,6 +70,7 @@ NodoUsuario* Crear_NodoUsuario(usuarios dato){
     return NewNode;
 }
 
+// Función para insertar un nuevo nodo de usuario al inicio de la lista
 void Insertar_NodoUsuario(NodoUsuario** Inicio, usuarios dato){
     NodoUsuario* NodoInsert = Crear_NodoUsuario(dato);        //Crear Nodo con funcion
     NodoInsert->sgt = *Inicio;                  //Nuevo nodo será el inicio de la lista
@@ -73,6 +78,7 @@ void Insertar_NodoUsuario(NodoUsuario** Inicio, usuarios dato){
     return;
 }
 
+// Función para buscar un nodo de usuario por su ID
 NodoUsuario** Buscar_NodoUsuario(NodoUsuario** Inicio, int dato){
     while (*Inicio){//Mientras inicio no sea NULL (Se acabe la lista)
     if((*Inicio)->Dato.id_usuario == dato) //Comparar si el nodo actual contiene el dato
@@ -82,6 +88,7 @@ NodoUsuario** Buscar_NodoUsuario(NodoUsuario** Inicio, int dato){
     return NULL;
 }
 
+// Función para eliminar un nodo de usuario
 void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl) {
     NodoUsuario* temp = *Inicio;
     NodoUsuario* prev = NULL;
@@ -108,6 +115,7 @@ void Eliminar_Nodo(NodoUsuario** Inicio, usuarios datoEl) {
     printf("Usuario eliminado con éxito.\n");
 }
 
+// Función para imprimir la lista de usuarios
 void Imprimir_Lista_Usuarios(NodoUsuario** Inicio){
   int i = 0;
   while ((*Inicio)) {                              
@@ -117,22 +125,23 @@ void Imprimir_Lista_Usuarios(NodoUsuario** Inicio){
   return;
 }
 
+// Función para imprimir la información de un usuario
 void ImprimirUsuario(usuarios User){
-    printf("ID\t\t %d", User.id_usuario);
+    printf("\n---------------------------\n");
+    printf("ID: \t\t %d", User.id_usuario);
     puts("");
-    printf("Nombre(s)\t %s", User.nombre);
+    printf("Nombre(s): \t %s", User.nombre);
     puts("");
-    printf("Apellido(s)\t %s", User.apellido);
+    printf("Apellido(s): \t %s", User.apellido);
     puts("");
-    printf("Fecha Nacimiento %d/%d/%d", User.fecha_nac.dia, User.fecha_nac.mes, User.fecha_nac.anio);
+    printf("Fecha Nacimiento: %d/%d/%d", User.fecha_nac.dia, User.fecha_nac.mes, User.fecha_nac.anio);
     puts("");
-    printf("Libros Prestados  %d", User.libros_prestados);
+    printf("Libros Prestados:  %d", User.libros_prestados);
     puts("");
     if (User.Multa > 0){
-        printf("Multas por pagar $%d", User.Multa);
+        printf("Multas por pagar: $%d", User.Multa);
         puts("");
     }
-    puts("");
     return;
 }
 

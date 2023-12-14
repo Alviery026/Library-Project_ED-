@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Declaración de  de menús del programa
+// Declaración de prototipos de función de los multiples menús del programa
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros);
 void menuUsuarios(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDUsuarios, int *IDLibros);
 void menuLibros(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros, int *IDUsuarios, int *IDLibros);
@@ -16,17 +16,19 @@ void menuMultas(NodoUsuario** InicioUsuarios);
 void menuNotificaciones(NodoUsuario** InicioUsuarios, NodoTrie** InicioLibros, NodoTransaccion** InicioTransaccion);
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTransaccion **InicioTransacciones,int *IDUsuarios, int *IDLibros);
 
+// Función principal del programa
 int main(void) {
-  NodoUsuario *InicioUsuarios = NULL; // Inicialización lista usuarios
-  NodoTrie *InicioLibros = NULL;     // Inicialización lista libros
+  NodoUsuario *InicioUsuarios = NULL;            // Inicialización lista usuarios
+  NodoTrie *InicioLibros = NULL;                // Inicialización lista libros
   NodoTransaccion *InicioTransacciones = NULL; // Inicialización lista Transaccion
-  int IDUsuarios = 1;                 // Inicialización ID para usuarios
-  int IDLibros = 1;                   // Inicialización ID para libros
+  int IDUsuarios = 1;                         // Inicialización ID para usuarios
+  int IDLibros = 1;                          // Inicialización ID para libros
 
 
   // Llamada de la función para cargar datos predeterminados
   CargarDatosPredeterminados(&InicioUsuarios, &InicioLibros, &IDUsuarios, &IDLibros, &InicioTransacciones);
 
+  // Llamada de la funcion de el menú principal del programa
   menuPrincipal(&InicioUsuarios, &InicioLibros, &InicioTransacciones, &IDUsuarios, &IDLibros);
 
 
@@ -37,8 +39,7 @@ int main(void) {
 
 
 
-//FUNCIONES DE MENÚS:
-
+// FUNCIONES DE MENÚS:
 void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   
   int opcion;
@@ -58,25 +59,32 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTra
 
     switch (opcion) {
     case 1:
+      // Ir al menú de usuarios
       menuUsuarios(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
       break;
     case 2:
       limpiarPantalla();
+      // Ir al menú de libros
       menuLibros(InicioUsuarios, InicioLibros, IDUsuarios, IDLibros);
       limpiarPantalla();
       break;
     case 3:
+      // Ir al menú de transacciones
       menuTransacciones(InicioUsuarios, InicioLibros, InicioTransacciones, IDUsuarios, IDLibros);
       break;
     case 4:
+      // Ir al menú de multas
       menuMultas(InicioUsuarios);
-
       break;
     case 5:
+      // Ir al menú de notificaciones
       menuNotificaciones(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
     case 6:
-      printf("Saliendo del programa...\n");
+      // Salir del programa
+      printf("\n::::::::::::::::::::::::::::::::::::\n");
+      printf("->Saliendo del programa...\n");
+      printf("::::::::::::::::::::::::::::::::::::\n");
       return;
     default:
       printf("Opcion no valida. Intente de nuevo.\n");
@@ -84,6 +92,7 @@ void menuPrincipal(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTra
   } while (opcion != 6);
 }
 
+// Menú de usuarios
 void menuUsuarios(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
@@ -97,10 +106,12 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDU
 
     switch (opcion) {
     case 1:
+      // Registrar nuevo usuario
       RegistroManualUsuario(InicioUsuarios, IDUsuarios);
       break;
     case 2:
       limpiarPantalla();
+      // Ver lista de usuarios registrados
       Imprimir_Lista_Usuarios(InicioUsuarios);
       pausar();
       break;
@@ -113,6 +124,7 @@ void menuUsuarios(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDU
   } while (opcion != 3);
 }
 
+// Menú de libros
 void menuLibros(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
@@ -141,6 +153,7 @@ void menuLibros(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,int *IDUsu
   } while (opcion != 3);
 }
 
+// Menú de transacciones
 void menuTransacciones(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,NodoTransaccion **InicioTransacciones, int *IDUsuarios, int *IDLibros) {
   int opcion;
   do {
@@ -155,14 +168,17 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,Nod
 
     switch (opcion) {
     case 1:
+      // Realizar préstamo
       realizarPrestamo(InicioUsuarios, InicioLibros, InicioTransacciones);
       pausar();
       break;
     case 2:
+      // Realizar devolución
       RealizarDevolucion(InicioUsuarios, InicioLibros, InicioTransacciones);
       pausar();
       break;
     case 3:
+      // Mostrar transacciones vigentes
       limpiarPantalla();
       MostrarUsuariosConLibrosPrestados(InicioUsuarios, InicioLibros, InicioTransacciones);
       break;
@@ -175,6 +191,7 @@ void menuTransacciones(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros,Nod
   } while (opcion != 4);
 }
 
+// Menú de multas
 void menuMultas(NodoUsuario** InicioUsuarios){
   int opcion;
   do{
@@ -186,6 +203,7 @@ void menuMultas(NodoUsuario** InicioUsuarios){
     switch (opcion)
     {
     case 1:
+      // Pagar multas
       PagarMultas(InicioUsuarios);
       break;
     case 2:
@@ -197,6 +215,7 @@ void menuMultas(NodoUsuario** InicioUsuarios){
   }while (opcion != 2);
 }
 
+// Menú de notificaciones
 void menuNotificaciones(NodoUsuario** InicioUsuarios, NodoTrie** InicioLibros, NodoTransaccion** InicioTransaccion){
   int opcion;
   do{
@@ -209,9 +228,11 @@ void menuNotificaciones(NodoUsuario** InicioUsuarios, NodoTrie** InicioLibros, N
     switch (opcion)
     {
     case 1:
+      // Notificar usuarios con libros atrasados
       RecordarLibrosVencidos(InicioUsuarios, InicioLibros, InicioTransaccion);
       break;
     case 2:
+      // Notificar disponibilidad de libros
       notificarDisponibilidadTotal(*InicioLibros, InicioUsuarios);
       break;
     case 3:

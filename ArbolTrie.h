@@ -58,17 +58,18 @@ int Insertar_Trie(NodoTrie** root, libros LibroInsert){
 }
 
 void ImprimirLibro(libros Libro){
-    printf("ID\t\t %d", Libro.id_libro);
+    printf("\n------------------------------------\n");
+    printf("ID: \t\t %d", Libro.id_libro);
     puts("");
-    printf("Titulo\t %s", Libro.titulo);
+    printf("Titulo: \t %s", Libro.titulo);
     puts("");
-    printf("Autor\t %s", Libro.autor);
+    printf("Autor:     \t %s", Libro.autor);
     puts("");
-    printf("Editorial\t %s", Libro.editorial);
+    printf("Editorial: \t %s", Libro.editorial);
     puts("");
-    printf("Ejemplares\t %d", Libro.numero_ejemplares);
+    printf("Ejemplares: \t %d", Libro.numero_ejemplares);
     puts("");
-    printf("Fecha Publicacion %d/%d/%d", Libro.anio_publicacion.dia, Libro.anio_publicacion.mes, Libro.anio_publicacion.anio);
+    printf("Fecha Publicacion: %d/%d/%d", Libro.anio_publicacion.dia, Libro.anio_publicacion.mes, Libro.anio_publicacion.anio);
     puts("");
     puts("");
     return;
@@ -99,33 +100,37 @@ void Imprimir_Trie(NodoTrie* root){
     ImprimirTrieRec(root, NULL, 0);
 }
 
-libros Escribir_Libro(int *ID){
-    libros NuevoLibro;
-    NuevoLibro.id_libro = *ID;
-    NuevoLibro.numero_ejemplares = 0;
-    NuevoLibro.Reservas = CrearCola();
+libros Escribir_Libro(int *ID) {
+  libros NuevoLibro;
+  NuevoLibro.id_libro = *ID;
+  NuevoLibro.numero_ejemplares = 0;
+  NuevoLibro.Reservas = CrearCola();
 
-    fflush(stdin);
-    printf("Ingrese el nombre del libro: ");
-    scanf("%40[^\n]", NuevoLibro.titulo);
-    fflush(stdin);
-    printf("Ingrese el nombre del autor: ");
-    scanf("%40[^\n]", NuevoLibro.autor);
-    fflush(stdin);
-    printf("Ingrese el nombre de la editorial: ");
-    scanf("%40[^\n]", NuevoLibro.editorial);
-    fflush(stdin);
-    printf("Ingrese la fecha de publicacion(DD/MM/AAAA): ");
-    scanf("%02d/%02d/%04d", &NuevoLibro.anio_publicacion.dia, &NuevoLibro.anio_publicacion.mes, &NuevoLibro.anio_publicacion.anio);
-    fflush(stdin);
-    *ID += 1;
-    return NuevoLibro;
+  fflush(stdin);
+  printf("Ingrese el nombre del libro: ");
+  scanf("%40[^\n]", NuevoLibro.titulo);
+  fflush(stdin);
+  printf("Ingrese el nombre del autor: ");
+  scanf("%40[^\n]", NuevoLibro.autor);
+  fflush(stdin);
+  printf("Ingrese el nombre de la editorial: ");
+  scanf("%40[^\n]", NuevoLibro.editorial);
+  fflush(stdin);
+  printf("Ingrese la fecha de publicacion(DD/MM/AAAA): ");
+  scanf("%02d/%02d/%04d", &NuevoLibro.anio_publicacion.dia,
+        &NuevoLibro.anio_publicacion.mes, &NuevoLibro.anio_publicacion.anio);
+  fflush(stdin);
+    printf("Ingrese el numero de ejemplares: ");
+  scanf("%d", &NuevoLibro.numero_ejemplares);
+
+  *ID += 1;
+  return NuevoLibro;
 }
 
 void Insertar_ManualLibro(NodoTrie** root, int* ID){
     libros LibroInsert = Escribir_Libro(ID);
     Insertar_Trie(root, LibroInsert);
-    printf("Libro registrado, favor de ingresar numero de ejemplares\n");
+    printf("Libro registrado con exito!\n");
 }
 
 NodoTrie** Buscar_NodoLibro(NodoTrie **root, char *signedtext){

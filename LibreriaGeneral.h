@@ -6,7 +6,6 @@
 #define LibreriaGeneral_h
 
 
-
 typedef struct fecha
 {
     int dia;
@@ -46,9 +45,6 @@ typedef struct libros
     fecha anio_publicacion;
     ListaReservas* Reservas;
 } libros;
-
-
-
 
 
 typedef struct NodoUsuario{

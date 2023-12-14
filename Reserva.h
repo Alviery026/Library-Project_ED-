@@ -30,7 +30,7 @@ void agregarReserva(ListaReservas* ListaReservas, int id_usuario) {
 // Función para notificar a los usuarios cuando un libro está disponible
 void notificarDisponibilidad(ListaReservas* Reservas, char* NombreLibro, NodoUsuario** InicioUsuarios) {
     if (Reservas == NULL || Reservas->cabeza == NULL){
-        puts("No hay reservas");
+        puts("->No hay reservas");
         return;
     }
     NodoUsuario** Usuario = Buscar_NodoUsuario(InicioUsuarios, Reservas->cabeza->UsuarioReserva);
@@ -41,8 +41,9 @@ void notificarDisponibilidad(ListaReservas* Reservas, char* NombreLibro, NodoUsu
     if (Reservas->cabeza = NULL){
         Reservas->cola = NULL;
     }
-
+    printf("\n------------------------------------------------\n");
     printf("Libro %s disponible, notificando usuario %s (Id %d)", NombreLibro, (*Usuario)->Dato.nombre, (*Usuario)->Dato.id_usuario);
+    printf("\n------------------------------------------------\n");
 }
 
 

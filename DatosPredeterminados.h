@@ -6,7 +6,7 @@
 #include "Transacciones.h"
 #include "ArbolTrie.h"
 
-
+// Función para cargar datos predeterminados al programa
 void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoTrie **InicioLibros, int *IDUsuarios, int *IDLibros, NodoTransaccion **InicioTransacciones)
 {
     // Usuarios predefinidos
@@ -16,6 +16,7 @@ void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoTrie **InicioL
     usuarios usuario4 = {"Jair", "Valdes", *IDUsuarios + 3, 0, {31, 12, 2001}, 120};
     usuarios usuario5 = {"Yadira", "Fleitas", *IDUsuarios + 4, 0, {24, 02, 1994}, 0};
 
+    // Registrar usuarios predefinidos
     RegistrarUsuario(usuario1, InicioUsuarios);
     RegistrarUsuario(usuario2, InicioUsuarios);
     RegistrarUsuario(usuario3, InicioUsuarios);
@@ -30,6 +31,7 @@ void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoTrie **InicioL
     libros libro3 = { *IDLibros + 2, "Liberalismo", "Juan Ramon Rallo", "Deusto", 2, {2019, 4, 19} };
     libros libro4 = { *IDLibros + 3, "Estructura de Datos", "Luis Joyanes Aguilar", "Pearson", 1, {1998, 01, 31} };
 
+    // Insertar libros predefinidos en el Trie
     Insertar_Trie(InicioLibros, libro1);
     Insertar_Trie(InicioLibros, libro2);
     Insertar_Trie(InicioLibros, libro3);
@@ -45,12 +47,13 @@ void CargarDatosPredeterminados(NodoUsuario **InicioUsuarios, NodoTrie **InicioL
 
     if (nodoUsuario1 && nodoLibro1)
     {
+        // Configurar fechas para simular un préstamo pasado
         time_t fechaActual = time(NULL);
         struct tm *fechaPrestamo = localtime(&fechaActual);
         fechaPrestamo->tm_mday -= 30; // Retroceder 30 días para simular un préstamo pasado
         time_t fechaPrestamo30dias = mktime(fechaPrestamo);
 
-
+        // Crear y agregar el préstamo predefinido
         prestamos_devoluciones prestamoPredefinido = {
             .libro_prestado = &(*nodoLibro1)->InfoLibro,
             .usuario = &(*nodoUsuario1)->Dato,
