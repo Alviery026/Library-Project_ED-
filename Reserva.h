@@ -38,7 +38,7 @@ void notificarDisponibilidad(ListaReservas* Reservas, char* NombreLibro, NodoUsu
     Reservas->cabeza = Reservas->cabeza->siguiente;
     free(liberarNodo);
 
-    if (Reservas->cabeza = NULL){
+    if (Reservas->cabeza == NULL){
         Reservas->cola = NULL;
     }
     printf("\n------------------------------------------------\n");
@@ -47,10 +47,6 @@ void notificarDisponibilidad(ListaReservas* Reservas, char* NombreLibro, NodoUsu
 }
 
 
-// Función para notificar a los usuarios cuando no se puede reservar un libro
-void notificarNoReservable(usuarios* usuario, libros* libro) {
-    printf("Libro '%s' no se puede reservar por el usuario %s.\n", libro->titulo, usuario->nombre);
-}
 
 
 #endif
